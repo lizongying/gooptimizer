@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/lizongying/optimizer"
-)
+import "github.com/lizongying/gooptimizer"
 
 type T1 struct {
 	u8   uint8
@@ -18,5 +16,5 @@ type T1 struct {
 }
 
 func main() {
-	optimizer.StructAlignment(new(T1))
+	gooptimizer.StructAlignment(new(T1))
 }

@@ -1,4 +1,4 @@
-package optimizer
+package gooptimizer
 
 import (
 	"fmt"

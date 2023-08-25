@@ -1,24 +1,24 @@
-# Optimizer
+# GoOptimizer
 
-Optimization tools for Golang. Aligning memory for structs.
+golang优化工具。对结构体进行内存对齐。
 
 [optimizer](https://github.com/lizongying/go-optimizer)
 
-[中文](./README_CN.md)
+[english](./README.md)
 
-## Features
+## 功能
 
-* Perform memory alignment on structures.
+* 对结构体进行内存对齐。
 
-## Install
+## 安装
 
 ```shell
 go get -u github.com/lizongying/gooptimizer
 ```
 
-## Usage
+## 用法
 
-Simple usage:
+简单使用：
 
 ```go
 package main
@@ -45,9 +45,9 @@ func main() {
 }
 ```
 
-Result:
+结果:
 
-After reordering the field sequence, the size of the structure decreased from 64 bytes to 56 bytes.
+重新排列字段顺序后，结构体的大小由64字节减少到56字节
 
 ![结果](./screenshot/img.png)
 
