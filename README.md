@@ -2,7 +2,7 @@
 
 Optimization tools for Golang. Aligning memory for structs.
 
-[optimizer](https://github.com/lizongying/go-optimizer)
+[optimizer](https://github.com/lizongying/gooptimizer)
 
 [中文](./README_CN.md)
 

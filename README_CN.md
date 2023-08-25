@@ -2,7 +2,7 @@
 
 golang优化工具。对结构体进行内存对齐。
 
-[optimizer](https://github.com/lizongying/go-optimizer)
+[optimizer](https://github.com/lizongying/gooptimizer)
 
 [english](./README.md)
 
