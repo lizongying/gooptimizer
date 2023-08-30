@@ -20,8 +20,8 @@ func main() {
 	//fmt.Println(should)
 
 	// print
-	//gooptimizer.StructAlignWithPrint(new(T1))
+	gooptimizer.StructAlignWithPrint(new(T1))
 
 	// cn print
-	gooptimizer.StructAlignWithCNPrint(new(T1))
+	//gooptimizer.StructAlignWithCNPrint(new(T1))
 }

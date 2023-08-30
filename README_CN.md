@@ -84,7 +84,7 @@ func TestMain_Alignment(t *testing.T) {
 
 重新排列字段顺序后，结构体的大小由64字节减少到56字节
 
-![结果](./screenshot/img_2.png)
+![结果](./screenshot/img.png)
 
 
 
