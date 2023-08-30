@@ -84,7 +84,7 @@ func (a *Alignment) Optimize() (ok bool, err error) {
 	oldActual := actual
 
 	if a.stdout {
-		fmt.Printf("\n%s:", a.i18n.Get("Field alignment arrangement after"))
+		fmt.Printf("\n%s:\n", a.i18n.Get("Field alignment arrangement after"))
 	}
 
 	a.reset()
