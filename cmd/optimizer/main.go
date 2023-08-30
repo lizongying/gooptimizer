@@ -1,6 +1,9 @@
 package main
 
-import "github.com/lizongying/gooptimizer"
+import (
+	"fmt"
+	"github.com/lizongying/gooptimizer"
+)
 
 type T1 struct {
 	u8   uint8
@@ -16,5 +19,12 @@ type T1 struct {
 }
 
 func main() {
-	gooptimizer.StructAlignment(new(T1))
+	should := gooptimizer.StructAlign(new(gooptimizer.Alignment))
+	fmt.Println(should)
+
+	// print
+	//gooptimizer.StructAlignWithPrint(new(gooptimizer.Alignment))
+
+	// cn print
+	//gooptimizer.StructAlignWithCNPrint(new(T1))
 }

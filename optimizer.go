@@ -5,14 +5,17 @@ import (
 	"math"
 	"reflect"
 	"sort"
+	"strings"
 )
 
 type Alignment struct {
+	stdout  bool
 	expect  uint8
 	store   [256]uint8
 	current uint8
 	align   uint8
 	size    uint8
+	i18n    *i18n
 	fields  []reflect.StructField
 }
 
@@ -21,7 +24,9 @@ func (a *Alignment) Align() {
 		t := v.Type
 		align := uint8(t.Align())
 		size := uint8(t.Size())
-		fmt.Printf("字段: %s, 类型: %s, 对齐: %d, 大小: %d\n", v.Name, t.Name(), align, size)
+		if a.stdout {
+			fmt.Printf("%s: %s, %s: %s, %s: %d, %s: %d\n", a.i18n.Get("Field"), v.Name, a.i18n.Get("Type"), t.Name(), a.i18n.Get("Align"), align, a.i18n.Get("Size"), size)
+		}
 
 		a.expect += size
 		for i := 0; i < int(math.Ceil(float64(size)/float64(align))); i++ {
@@ -49,8 +54,11 @@ func (a *Alignment) reset() {
 	a.current = 0
 }
 
-func (a *Alignment) Print() {
-	fmt.Println("字段对齐排列前:")
+func (a *Alignment) Optimize() (ok bool, err error) {
+	if a.stdout {
+		fmt.Printf("%s:\n", a.i18n.Get("Field alignment arrangement before"))
+	}
+
 	a.reset()
 	a.Align()
 
@@ -59,16 +67,25 @@ func (a *Alignment) Print() {
 		if i == 0 {
 			break
 		}
-		//fmt.Println(i)
-		actual += uint8(a.align)
+		if a.stdout {
+			fmt.Println(strings.Repeat("■", int(i)))
+		}
+		actual += a.align
 	}
 	if actual != a.size {
 		fmt.Println("error")
 		return
 	}
-	fmt.Printf("对齐: %d, 期望大小: %d, 实际大小: %d\n", a.align, a.expect, actual)
+	if a.stdout {
+		fmt.Printf("%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
+	}
 
-	fmt.Println("\n字段对齐顺序排列后:")
+	oldActual := actual
+
+	if a.stdout {
+		fmt.Printf("\n%s:", a.i18n.Get("Field alignment arrangement after"))
+	}
+
 	a.reset()
 	a.sort()
 	a.Align()
@@ -78,19 +95,32 @@ func (a *Alignment) Print() {
 		if i == 0 {
 			break
 		}
-		//fmt.Println(i)
-		actual += uint8(a.align)
+		if a.stdout {
+			fmt.Println(strings.Repeat("■", int(i)))
+		}
+		actual += a.align
 	}
-	fmt.Printf("对齐: %d, 期望大小: %d, 实际大小: %d\n", a.align, a.expect, actual)
+	if a.stdout {
+		fmt.Printf("%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
+	}
+
+	save := oldActual - actual
+	ok = save == 0
+	if !ok && a.stdout {
+		fmt.Printf("%s: %d\n", a.i18n.Get("You should optimize the structure; there's potential to save"), save)
+	}
+
+	return
 }
 
-func StructAlignment(v any) {
+func StructAlign(v any) (ok bool) {
 	if v == nil {
 		fmt.Println("v nil")
 		return
 	}
 
 	a := new(Alignment)
+	a.i18n = DefaultI18n
 
 	rv := reflect.TypeOf(v)
 	if rv.Kind() == reflect.Ptr {
@@ -105,5 +135,59 @@ func StructAlignment(v any) {
 		a.fields = append(a.fields, rv.Field(i))
 	}
 
-	a.Print()
+	ok, _ = a.Optimize()
+	return
+}
+
+func StructAlignWithPrint(v any) {
+	if v == nil {
+		fmt.Println("v nil")
+		return
+	}
+
+	a := new(Alignment)
+	a.i18n = DefaultI18n
+	a.stdout = true
+
+	rv := reflect.TypeOf(v)
+	if rv.Kind() == reflect.Ptr {
+		rv = rv.Elem()
+	}
+
+	a.align = uint8(rv.Align())
+	a.size = uint8(rv.Size())
+
+	l := rv.NumField()
+	for i := 0; i < l; i++ {
+		a.fields = append(a.fields, rv.Field(i))
+	}
+
+	_, _ = a.Optimize()
+}
+
+func StructAlignWithCNPrint(v any) {
+	if v == nil {
+		fmt.Println("v nil")
+		return
+	}
+
+	a := new(Alignment)
+	a.i18n = DefaultI18n
+	a.i18n.lang = CN
+	a.stdout = true
+
+	rv := reflect.TypeOf(v)
+	if rv.Kind() == reflect.Ptr {
+		rv = rv.Elem()
+	}
+
+	a.align = uint8(rv.Align())
+	a.size = uint8(rv.Size())
+
+	l := rv.NumField()
+	for i := 0; i < l; i++ {
+		a.fields = append(a.fields, rv.Field(i))
+	}
+
+	_, _ = a.Optimize()
 }

@@ -18,12 +18,15 @@ go get -u github.com/lizongying/gooptimizer
 
 ## 用法
 
+建议对所有结构体都进行测试
+
 简单使用：
 
 ```go
 package main
 
 import (
+	"fmt"
 	"github.com/lizongying/gooptimizer"
 )
 
@@ -41,7 +44,37 @@ type T1 struct {
 }
 
 func main() {
-	gooptimizer.StructAlignment(new(T1))
+	should := gooptimizer.StructAlign(new(gooptimizer.Alignment))
+	fmt.Println(should)
+
+	// print
+	//gooptimizer.StructAlignWithPrint(new(gooptimizer.Alignment))
+
+	// cn print
+	//gooptimizer.StructAlignWithCNPrint(new(T1))
+}
+```
+
+```go
+package main
+
+import (
+	"github.com/lizongying/gooptimizer"
+	"testing"
+)
+
+func TestMain_T1(t *testing.T) {
+	result := gooptimizer.StructAlign(new(T1))
+	if !result {
+		t.Error("Expected true, but got false")
+	}
+}
+
+func TestMain_Alignment(t *testing.T) {
+	result := gooptimizer.StructAlign(new(gooptimizer.Alignment))
+	if !result {
+		t.Error("Expected true, but got false")
+	}
 }
 ```
 
