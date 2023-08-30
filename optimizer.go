@@ -68,7 +68,8 @@ func (a *Alignment) Optimize() (ok bool, err error) {
 			break
 		}
 		if a.stdout {
-			fmt.Println(strings.Repeat("■", int(i)))
+			fmt.Print(strings.Repeat("■", int(i)))
+			fmt.Print(strings.Repeat("□", int(a.align-i)))
 		}
 		actual += a.align
 	}
@@ -77,7 +78,7 @@ func (a *Alignment) Optimize() (ok bool, err error) {
 		return
 	}
 	if a.stdout {
-		fmt.Printf("%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
+		fmt.Printf("\n%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
 	}
 
 	oldActual := actual
@@ -96,12 +97,13 @@ func (a *Alignment) Optimize() (ok bool, err error) {
 			break
 		}
 		if a.stdout {
-			fmt.Println(strings.Repeat("■", int(i)))
+			fmt.Print(strings.Repeat("■", int(i)))
+			fmt.Print(strings.Repeat("□", int(a.align-i)))
 		}
 		actual += a.align
 	}
 	if a.stdout {
-		fmt.Printf("%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
+		fmt.Printf("\n%s: %d, %s: %d, %s: %d\n", a.i18n.Get("Align"), a.align, a.i18n.Get("Expect Size"), a.expect, a.i18n.Get("Actual Size"), actual)
 	}
 
 	save := oldActual - actual

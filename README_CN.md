@@ -18,6 +18,8 @@ go get -u github.com/lizongying/gooptimizer
 
 ## 用法
 
+注意: 为了方便，本工具只处理小于256字节的结构体
+
 建议对所有结构体都进行测试
 
 简单使用：
@@ -82,7 +84,7 @@ func TestMain_Alignment(t *testing.T) {
 
 重新排列字段顺序后，结构体的大小由64字节减少到56字节
 
-![结果](./screenshot/img.png)
+![结果](./screenshot/img_2.png)
 
 
 

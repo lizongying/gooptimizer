@@ -18,6 +18,8 @@ go get -u github.com/lizongying/gooptimizer
 
 ## Usage
 
+Note: For convenience, this tool only handles structures smaller than 256 bytes.
+
 It's advisable to conduct testing on all structures.
 
 Simple usage:
@@ -82,7 +84,7 @@ Result:
 
 After reordering the field sequence, the size of the structure decreased from 64 bytes to 56 bytes.
 
-![结果](./screenshot/img.png)
+![结果](./screenshot/img_1.png)
 
 
 
